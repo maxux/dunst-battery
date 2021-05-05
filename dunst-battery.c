@@ -65,12 +65,25 @@ int battery_check(int status) {
     return 0;
 }
 
-int main(void) {
+int main(int argc, char *argv[]) {
     int status = 0;
     struct timespec timer = {
         .tv_sec = 20,
         .tv_nsec = 0,
     };
+
+    if(argc < 2) {
+        pid_t pid;
+
+        if((pid = fork()) > 0) {
+            printf("[+] %s running in background %d\n", argv[0], pid);
+            return 0;
+        }
+
+        close(STDIN_FILENO);
+        close(STDOUT_FILENO);
+        close(STDERR_FILENO);
+    }
 
     while(1) {
         status = battery_check(status);
