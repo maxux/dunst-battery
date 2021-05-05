@@ -42,7 +42,7 @@ int battery_check(int status) {
 
     sprintf(message, "Battery load: %d%%", battery.load);
 
-    if(battery.load < 9) {
+    if(battery.load < 10) {
         printf("[+] critical low level detected\n");
         notify("Battery", message, "critical");
         return 3;
@@ -50,9 +50,7 @@ int battery_check(int status) {
 
     if(battery.load < 20) {
         printf("[+] low level detected\n");
-        if(status != 2)
-            notify("Battery", message, "normal");
-
+        notify("Battery", message, "normal");
         return 2;
     }
 
